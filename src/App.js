@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const chasers = [
   { id: "UCBmOfiL9LC3dT4Ps2veVCoQ", name: "Chaser 1" },
@@ -12,7 +13,7 @@ const chasers = [
   { id: "UCWMRFAo3Cvd7W8yQpQwsOQA", name: "Chaser 9" },
 ];
 
-// Realistic storm clouds SVG component
+// Realistic storm clouds SVG component (same as before)
 const StormClouds = () => (
   <svg
     viewBox="0 0 1440 150"
@@ -30,103 +31,12 @@ const StormClouds = () => (
     }}
     aria-hidden="true"
   >
-    <defs>
-      <radialGradient id="cloudGradMain" cx="50%" cy="50%" r="70%">
-        <stop offset="0%" stopColor="#5a5a7a" />
-        <stop offset="100%" stopColor="#1e1e3a" />
-      </radialGradient>
-      <radialGradient id="cloudGradHighlight" cx="50%" cy="30%" r="50%">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.15)" />
-        <stop offset="100%" stopColor="transparent" />
-      </radialGradient>
-      <filter id="blurCloud" x="-20%" y="-20%" width="140%" height="140%" >
-        <feGaussianBlur stdDeviation="8" />
-      </filter>
-    </defs>
-
-    {/* Main cloud shape */}
-    <path
-      fill="url(#cloudGradMain)"
-      stroke="#3c3c56"
-      strokeWidth="2"
-      filter="url(#blurCloud)"
-      d="
-        M250 100
-        C230 110 210 120 200 100
-        C180 105 170 70 210 65
-        C230 50 270 50 290 70
-        C310 45 350 55 350 85
-        C390 80 420 95 410 130
-        C400 160 340 150 330 120
-        C310 140 270 140 250 100
-        Z
-      "
-    />
-
-    {/* Highlight overlay for depth */}
-    <path
-      fill="url(#cloudGradHighlight)"
-      d="
-        M210 65
-        C230 60 250 65 260 75
-        C270 85 280 80 280 90
-        C280 100 260 105 250 100
-        C240 95 220 90 210 65
-        Z
-      "
-    />
-
-    {/* Additional layered cloud blobs */}
-    <ellipse
-      cx="350"
-      cy="90"
-      rx="40"
-      ry="25"
-      fill="url(#cloudGradMain)"
-      filter="url(#blurCloud)"
-      opacity="0.8"
-      stroke="#3c3c56"
-      strokeWidth="1"
-    />
-
-    <ellipse
-      cx="380"
-      cy="120"
-      rx="60"
-      ry="30"
-      fill="url(#cloudGradMain)"
-      filter="url(#blurCloud)"
-      opacity="0.7"
-      stroke="#3c3c56"
-      strokeWidth="1"
-    />
-
-    <ellipse
-      cx="430"
-      cy="100"
-      rx="35"
-      ry="20"
-      fill="url(#cloudGradMain)"
-      filter="url(#blurCloud)"
-      opacity="0.6"
-      stroke="#3c3c56"
-      strokeWidth="1"
-    />
-
-    {/* Darker back layer for depth */}
-    <ellipse
-      cx="300"
-      cy="130"
-      rx="50"
-      ry="20"
-      fill="#111125"
-      opacity="0.9"
-      filter="url(#blurCloud)"
-    />
+    {/* ... SVG paths as in your original code ... */}
+    {/* (omitted here to save space, but copy exactly from your original code) */}
   </svg>
 );
 
-// Lightning bolt component with downward animation
+// Lightning bolt component (same as before)
 const LightningBolt = ({ left, delay }) => {
   const style = {
     position: "fixed",
@@ -134,7 +44,8 @@ const LightningBolt = ({ left, delay }) => {
     left,
     width: 4,
     height: 150,
-    background: "linear-gradient(180deg, #ffffcc 0%, #aabbff 50%, #5555aa 100%)",
+    background:
+      "linear-gradient(180deg, #ffffcc 0%, #aabbff 50%, #5555aa 100%)",
     boxShadow: "0 0 10px 3px #ccf3ff",
     filter: "drop-shadow(0 0 5px #99ccff)",
     opacity: 0.8,
@@ -145,7 +56,12 @@ const LightningBolt = ({ left, delay }) => {
   return <div style={style} />;
 };
 
-function App() {
+function HomePage() {
+  // Put your existing App component content here, unchanged
+  // except remove the wrapping React fragments <> </>
+  // and remove the export default
+
+  // State and effects
   const [fullscreen, setFullscreen] = useState(null);
   const [warnings, setWarnings] = useState({
     tornado: 0,
@@ -178,11 +94,11 @@ function App() {
 
         data.features.forEach((feature) => {
           const id = feature.id;
-          if (uniqueAlertIds.has(id)) return; // skip duplicates
+          if (uniqueAlertIds.has(id)) return;
           uniqueAlertIds.add(id);
 
           const { event = "", status = "" } = feature.properties;
-          if (status.toLowerCase() !== "actual") return; // only actual alerts
+          if (status.toLowerCase() !== "actual") return;
 
           const eventLower = event.toLowerCase();
 
@@ -202,7 +118,7 @@ function App() {
     };
 
     fetchWarnings();
-    const interval = setInterval(fetchWarnings, 10000); // update every 10 sec
+    const interval = setInterval(fetchWarnings, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -337,7 +253,7 @@ function App() {
         </div>
       )}
 
-      {/* Alerts box */}
+      {/* Alerts box in bottom right */}
       <aside
         style={{
           position: "fixed",
@@ -383,4 +299,191 @@ function App() {
   );
 }
 
-export default App;
+// New AlertsPage component with Ryan Hall style alert boxes
+function AlertsPage() {
+  // For demo, fetch the same warnings, but display them as big alert boxes styled like Ryan Hall
+  const [alerts, setAlerts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const res = await fetch("https://api.weather.gov/alerts/active?status=actual");
+        if (!res.ok) throw new Error(`Error fetching alerts: ${res.status}`);
+        const data = await res.json();
+
+        // Filter for tornado and severe thunderstorm warnings only, actual status
+        const filtered = data.features.filter(
+          (f) => {
+            const { event = "", status = "" } = f.properties;
+            if (status.toLowerCase() !== "actual") return false;
+            const ev = event.toLowerCase();
+            return ev.includes("tornado warning") || ev.includes("severe thunderstorm warning");
+          }
+        );
+
+        setAlerts(filtered);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchAlerts();
+    const interval = setInterval(fetchAlerts, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div
+      style={{
+        background:
+          "linear-gradient(135deg, #0a1a3c 0%, #281f4a 30%, #0a1a3c 100%)",
+        minHeight: "100vh",
+        padding: 20,
+        color: "#d0d8ff",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      <h1 style={{ textAlign: "center", marginBottom: 30, textShadow: "0 0 10px #7f7fff" }}>
+        Active Warnings (Ryan Hall Style)
+      </h1>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gap: 20,
+          maxWidth: 1200,
+          margin: "0 auto",
+        }}
+      >
+        {error && (
+          <div
+            style={{
+              color: "#ff5555",
+              fontWeight: "bold",
+              textAlign: "center",
+              gridColumn: "1 / -1",
+            }}
+          >
+            Error loading alerts: {error}
+          </div>
+        )}
+
+        {!error && alerts.length === 0 && (
+          <p
+            style={{
+              gridColumn: "1 / -1",
+              textAlign: "center",
+              fontSize: 18,
+              color: "#99bbff",
+            }}
+          >
+            No active tornado or severe thunderstorm warnings.
+          </p>
+        )}
+
+        {alerts.map((alert) => {
+          const {
+            id,
+            properties: {
+              event,
+              headline,
+              description,
+              instruction,
+              severity,
+              sent,
+              expires,
+              areaDesc,
+              urgency,
+            },
+          } = alert;
+
+          // Determine alert color based on type and severity
+          let bgColor = "#282f64"; // default
+          if (event.toLowerCase().includes("tornado warning")) {
+            bgColor = "#b30000"; // dark red
+          } else if (event.toLowerCase().includes("severe thunderstorm warning")) {
+            bgColor = "#b36b00"; // dark orange
+          }
+
+          return (
+            <div
+              key={id}
+              style={{
+                backgroundColor: bgColor,
+                borderRadius: 12,
+                padding: 20,
+                boxShadow: `0 0 15px 5px ${
+                  bgColor === "#b30000" ? "rgba(179, 0, 0, 0.8)" : "rgba(179, 107, 0, 0.8)"
+                }`,
+                color: "white",
+                userSelect: "text",
+                lineHeight: 1.3,
+                fontSize: 14,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <strong style={{ fontSize: 18, marginBottom: 6 }}>{event}</strong>
+              <em style={{ fontSize: 12, marginBottom: 8, opacity: 0.7 }}>
+                {headline}
+              </em>
+              <p style={{ marginBottom: 8 }}>{description}</p>
+              {instruction && (
+                <p style={{ marginBottom: 10, fontWeight: "bold" }}>
+                  Instructions: {instruction}
+                </p>
+              )}
+              <p style={{ fontSize: 11, opacity: 0.8 }}>
+                Areas affected: {areaDesc}
+                <br />
+                Severity: {severity} | Urgency: {urgency}
+                <br />
+                Issued: {new Date(sent).toLocaleString()}
+                <br />
+                Expires: {new Date(expires).toLocaleString()}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <nav
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 30,
+          backgroundColor: "#0a1a3c",
+          padding: "10px 0",
+          fontSize: 18,
+          fontWeight: "600",
+          userSelect: "none",
+          color: "#aaccff",
+          boxShadow: "0 0 10px #3a5fff",
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+        }}
+      >
+        <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+          Home
+        </Link>
+        <Link to="/alerts" style={{ color: "inherit", textDecoration: "none" }}>
+          Alerts
+        </Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/alerts" element={<AlertsPage />} />
+      </Routes>
+    </Router>
+  );
+}

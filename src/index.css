@@ -1,13 +1,128 @@
-body {
+/* index.css */
+
+/* Reset and base */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a1a3c 0%, #281f4a 30%, #0a1a3c 100%);
+  color: #c0c8ff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Container for the video grid */
+.video-grid {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  justify-items: center;
+  max-width: 1440px;
+  margin: 0 auto 50px auto;
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+  .video-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 599px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Each video card */
+.video-card {
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 2px rgba(100, 100, 180, 0.8);
+  background: linear-gradient(145deg, #1e2a57, #282f64);
+  padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover,
+.video-card:focus {
+  transform: scale(1.04);
+  box-shadow: 0 0 15px 4px rgba(130, 140, 255, 0.9);
+  outline: none;
+}
+
+.video-card h3 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #b0bbff;
+}
+
+/* Video iframe inside each card */
+.video-card iframe {
+  border-radius: 8px;
+  width: 100%;
+  height: 270px;
+  border: none;
+}
+
+/* Fullscreen overlay container */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 10, 30, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Fullscreen iframe */
+.fullscreen-iframe {
+  width: 90vw;
+  height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #9bb1ff;
+  border: none;
+}
+
+/* Close button for fullscreen */
+.fullscreen-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #223366;
+  color: #c0c8ff;
+  border: none;
+  padding: 10px 14px;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10000;
+  transition: background-color 0.3s ease;
+}
+
+.fullscreen-close-btn:hover,
+.fullscreen-close-btn:focus {
+  background: #4466cc;
+  outline: none;
 }
