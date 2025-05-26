@@ -1,38 +1,139 @@
+/* App.css */
+
+/* Overall application styles */
 .App {
+  font-family: Arial, sans-serif;
+  color: #FFFFFF;
+  background: linear-gradient(to bottom, #0b1d51 0%, #31235F 100%);
+  min-height: 100vh;
+}
+
+/* Navigation Bar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #001737;
+  padding: 0.5rem 1rem;
+}
+.nav-title {
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.nav-links .nav-link {
+  color: #FFFFFF;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.nav-links .nav-link:hover {
+  text-decoration: underline;
+}
+/* Active link styling */
+.nav-links .nav-link.active {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* Page headers */
+.page-header {
+  text-align: center;
+  margin: 1rem 0 1.5rem;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  /* Neon glow effect for headers */
+  text-shadow: 0 0 8px #FFFFFF, 0 0 12px #8f6aff;
+}
+
+/* Home Page Styles */
+.home-page {
+  padding: 1rem;
+}
+.streams-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.stream-card {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.stream-embed {
+  width: 360px;
+  height: 203px; /* 16:9 aspect ratio (approx 360x202.5) */
+  border: none;
+  box-shadow: 0 0 10px #000;
+}
+.stream-label {
+  margin-top: 0.25rem;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Radar Page Styles */
+.radar-page {
+  width: 100%;
+  height: 100%;
+}
+.radar-map {
+  /* Make the map fill most of the viewport height */
+  width: 100%;
+  height: calc(100vh - 60px);  /* subtract nav bar height (approx) */
+  /* If the nav bar height changes, adjust this value */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Alerts Page Styles */
+.alerts-page {
+  padding: 1rem;
+  text-align: center;
+}
+.no-alerts {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #cccccc;
+  margin-top: 2rem;
+}
+.alerts-list {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 1rem;
 }
 
-.App-link {
-  color: #61dafb;
+/* Warning cards */
+.warning-card {
+  width: 90%;
+  max-width: 600px;
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 0 10px #000;
+}
+.warning-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+}
+.warning-area, .warning-time {
+  margin: 0.15rem 0;
+  line-height: 1.4;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Tornado Warning card style */
+.tornado-card {
+  border-left: 6px solid #ff4444;
+}
+.tornado-card .warning-title {
+  color: #ff4444;
+  text-shadow: 0 0 5px #ff4444;
+}
+
+/* Severe Thunderstorm Warning card style */
+.severe-card {
+  border-left: 6px solid #ffd000;
+}
+.severe-card .warning-title {
+  color: #ffd000;
+  text-shadow: 0 0 5px #ffd000;
 }
